@@ -1,5 +1,6 @@
 package fr.bpce.meetingPlanner.core.controller;
 
+import fr.bpce.meetingPlanner.core.domain.MeetingType;
 import fr.bpce.meetingPlanner.core.domain.Salle;
 import fr.bpce.meetingPlanner.core.service.ReservationService;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,9 +32,9 @@ class ReservationControllerTest {
     void reserverSalle_shouldReturnOkResponse_whenSalleIsAvailable() {
         //GIVEN
         Salle salle = new Salle("Salle A", 20);
-        when(reservationService.reserverSalle("2023-10-10", 9, 10,10)).thenReturn(Optional.of(salle));
+        when(reservationService.reserverSalle("2023-10-10", 9, 10,10, MeetingType.RC)).thenReturn(Optional.of(salle));
         //THEN
-        ResponseEntity<String> response = reservationController.reserverSalle("2023-10-10", 9, 10,10);
+        ResponseEntity<String> response = reservationController.reserverSalle("2023-10-10", 9, 10,10, MeetingType.RC);
         //Assert
         assertEquals(200, response.getStatusCodeValue());
         assertEquals("Salle réservée : Salle A (Capacité: 20)", response.getBody());
@@ -42,9 +43,9 @@ class ReservationControllerTest {
     @Test
     void reserverSalle_shouldReturnNotFoundResponse_whenNoSalleIsAvailable() {
         //GIVEN
-        when(reservationService.reserverSalle("date", 9, 10,10)).thenReturn(Optional.empty());
+        when(reservationService.reserverSalle("date", 9, 10,10, MeetingType.RC)).thenReturn(Optional.empty());
         //THEN
-        ResponseEntity<String> response = reservationController.reserverSalle("2023-10-10", 9, 10,10);
+        ResponseEntity<String> response = reservationController.reserverSalle("2023-10-10", 9, 10,10, MeetingType.RC);
         //Assert
         assertEquals(404, response.getStatusCodeValue());
         assertEquals("Aucune salle disponible pour 10 personnes.", response.getBody());

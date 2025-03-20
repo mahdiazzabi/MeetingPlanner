@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 public class Salle {
@@ -11,6 +12,14 @@ public class Salle {
     private String nom;
     private int capaciteMax;
     private List<Reservation> reservations;
+    private EnumSet<Equipment> equipements;
+
+    public Salle(String nom, int capaciteMax, EnumSet<Equipment> equipements) {
+        this.nom = nom;
+        this.capaciteMax = capaciteMax;
+        this.equipements = equipements;
+        this.reservations = new ArrayList<>();
+    }
 
     public Salle(String nom, int capaciteMax) {
         this.nom = nom;
@@ -40,6 +49,14 @@ public class Salle {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public EnumSet<Equipment> getEquipements() {
+        return equipements;
+    }
+
+    public void setEquipements(EnumSet<Equipment> equipements) {
+        this.equipements = equipements;
     }
 
     public boolean isAvailable(String date, int startHour, int endHour) {

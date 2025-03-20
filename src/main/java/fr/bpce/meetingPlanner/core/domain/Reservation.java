@@ -6,8 +6,9 @@ public class Reservation {
     private int startHour;
     private int endHour;
     private int nombreDePersonnes;
+    private MeetingType typeReunion;
 
-    public Reservation(String date, int startHour, int endHour, int nombreDePersonnes) {
+    public Reservation(String date, int startHour, int endHour, int nombreDePersonnes, MeetingType typeReunion) {
         this.date = date;
         this.startHour = startHour;
         this.endHour = endHour;
@@ -44,6 +45,14 @@ public class Reservation {
 
     public void setNombreDePersonnes(int nombreDePersonnes) {
         this.nombreDePersonnes = nombreDePersonnes;
+    }
+
+    public MeetingType getTypeReunion() {
+        return typeReunion;
+    }
+
+    public void setTypeReunion(MeetingType typeReunion) {
+        this.typeReunion = typeReunion;
     }
 
     // Vérification des conflits de réservation
