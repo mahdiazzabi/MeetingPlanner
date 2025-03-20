@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 @Repository
 public interface ReservationService {
-    Optional<Salle> reserverSalle(int nombrePersonne);
+    Optional<Salle> reserverSalle(String date, int startHour, int endHour, int nombrePersonne);
+
 }

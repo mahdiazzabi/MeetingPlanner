@@ -21,8 +21,11 @@ public class ReservationController {
     }
 
     @PostMapping("/reserver")
-    public ResponseEntity<String> reserverSalle(@RequestParam int nombreDePersonnes) {
-        Optional<Salle> salle = reservationService.reserverSalle(nombreDePersonnes);
+    public ResponseEntity<String> reserverSalle(@RequestParam String date,
+                                @RequestParam int startHour,
+                                @RequestParam int endHour,
+                                @RequestParam int nombreDePersonnes){
+        Optional<Salle> salle = reservationService.reserverSalle(date, startHour, endHour, nombreDePersonnes);
         return salle.map(value -> ResponseEntity.ok("Salle réservée : " + value.getNom() + " (Capacité: " + value.getCapaciteMax() + ")"))
                 .orElseGet(() -> ResponseEntity.status(404).body("Aucune salle disponible pour " + nombreDePersonnes + " personnes."));
     }

@@ -36,7 +36,7 @@ class ReservationServiceImplTest {
 
         when(salleRepository.findAll()).thenReturn(salles);
 
-        Optional<Salle> result = reservationService.reserverSalle(15);
+        Optional<Salle> result = reservationService.reserverSalle("2023-10-10", 9, 10,15);
 
         assertEquals(salle2, result.orElse(null));
     }
@@ -48,7 +48,7 @@ class ReservationServiceImplTest {
 
         when(salleRepository.findAll()).thenReturn(salles);
 
-        Optional<Salle> result = reservationService.reserverSalle(15);
+        Optional<Salle> result = reservationService.reserverSalle("2023-10-10", 9, 10,15);
 
         assertEquals(Optional.empty(), result);
     }
@@ -61,7 +61,7 @@ class ReservationServiceImplTest {
 
         when(salleRepository.findAll()).thenReturn(salles);
 
-        Optional<Salle> result = reservationService.reserverSalle(20);
+        Optional<Salle> result = reservationService.reserverSalle("2023-10-10", 9, 10,20);
 
         assertEquals(salle2, result.orElse(null));
     }
@@ -75,7 +75,7 @@ class ReservationServiceImplTest {
 
         when(salleRepository.findAll()).thenReturn(salles);
 
-        Optional<Salle> result = reservationService.reserverSalle(15);
+        Optional<Salle> result = reservationService.reserverSalle("2023-10-10", 9, 10,15);
 
         assertEquals(salle2, result.orElse(null));
     }

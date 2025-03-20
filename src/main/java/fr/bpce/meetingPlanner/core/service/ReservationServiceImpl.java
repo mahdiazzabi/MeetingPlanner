@@ -1,5 +1,6 @@
 package fr.bpce.meetingPlanner.core.service;
 
+import fr.bpce.meetingPlanner.core.domain.Reservation;
 import fr.bpce.meetingPlanner.core.domain.Salle;
 import fr.bpce.meetingPlanner.core.persistance.SalleRepository;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,21 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Optional<Salle> reserverSalle(int nombrePersonne) {
-        // Récupérer la liste des salles
-        // filtrer par nombre de personne
-        // Renvoyer la premier salle qui correspond au min
-        return salleRepository.findAll().stream()
-                .filter(salle -> salle.getCapaciteMax() >= nombrePersonne)
-                .min((salle1, salle2) -> Integer.compare(salle1.getCapaciteMax(), salle2.getCapaciteMax()));
+    public synchronized Optional<Salle> reserverSalle(String date, int startHour, int endHour, int nombrePersonne) {
+        Optional<Salle> salleOptional = salleRepository.findAll().stream()
+                .filter(salle -> salle.getCapaciteMax() >= nombrePersonne) // Vérifie si la salle peut accueillir le nombre de personnes
+                .filter(salle -> salle.isAvailable(date, startHour, endHour)) // Vérifie la disponibilité pour le créneau horaire
+                .min((s1, s2) -> Integer.compare(s1.getCapaciteMax(), s2.getCapaciteMax())); // Trouve la salle avec la capacité minimale
+
+        salleOptional.ifPresent(salle -> addReservation(salle, date, startHour, endHour, nombrePersonne));
+
+        return salleOptional;
     }
+
+    private void addReservation(Salle salle, String date, int startHour, int endHour, int nombreDePersonnes) {
+        Reservation reservation = new Reservation(date, startHour, endHour, nombreDePersonnes);
+        salle.getReservations().add(reservation);
+    }
+
+
 }
